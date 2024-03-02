@@ -3,4 +3,5 @@ include/
 lib/
 lib64
 pyvenv.cfg
-02_PushPip/__pycache__/
+*/__pycache__/
+03_MergeRequirements/*.txt
