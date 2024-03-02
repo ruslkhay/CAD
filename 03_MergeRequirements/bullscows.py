@@ -5,8 +5,8 @@ import urllib.request
 import os
 
 from cowsay import cowsay, list_cows
-from termcolor import cprint
 
+MY_COW = list_cows()[24]
 def bullscows(guess: str, secret: str) -> (int, int):
     bulls = sum(g == s for g, s in zip(guess, secret))
     cows = sum(min(secret.count(g), guess.count(g)) for g in set(guess))
@@ -29,7 +29,7 @@ def ask(prompt: str, valid: list[str] = None) -> str:
     Recursive function for varification of typed word: is it in the dictionary
     (valid) or not
     '''
-    cprint(cowsay(prompt, random.choice(list_cows())), 'red')
+    print(cowsay(prompt, MY_COW))
     player_guess = input('\033[92m'+'>> '+'\033[0m')
     if player_guess in valid:
         return player_guess
@@ -38,7 +38,7 @@ def ask(prompt: str, valid: list[str] = None) -> str:
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
     fstr = format_string.format(bulls, cows)
-    print(cowsay(fstr, random.choice(list_cows())))
+    print(fstr)
 
 def download_words(url):
     '''
