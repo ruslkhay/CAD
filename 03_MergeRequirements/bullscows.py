@@ -4,6 +4,8 @@ import sys
 import urllib.request
 import os
 
+from cowsay import cowsay, list_cows
+from termcolor import cprint
 
 def bullscows(guess: str, secret: str) -> (int, int):
     bulls = sum(g == s for g, s in zip(guess, secret))
@@ -15,7 +17,7 @@ def gameplay(ask, inform, words: list[str]) -> int:
     secret_word = random.choice(words)
     attempts = 0
     while True:
-        user_guess = ask("Type a word: ", words)
+        user_guess = ask("Type a word ", words)
         # print(f'guess = {user_guess}, word = {secret_word}')
         bulls, cows = bullscows(user_guess, secret_word)
         inform("Bulls: {}, Cows: {}", bulls, cows)
@@ -24,16 +26,19 @@ def gameplay(ask, inform, words: list[str]) -> int:
             return attempts
 def ask(prompt: str, valid: list[str] = None) -> str:
     '''
-    Recursive function for varification of typed word (promt): is it in 
-    thr dictionary (valid) or not
+    Recursive function for varification of typed word: is it in the dictionary
+    (valid) or not
     '''
-    player_guess = input(prompt)
+    cprint(cowsay(prompt, random.choice(list_cows())), 'red')
+    player_guess = input('\033[92m'+'>> '+'\033[0m')
     if player_guess in valid:
         return player_guess
     print('\033[93m'+'Unknown word! Try again'+'\033[0m')
     return ask(prompt, valid)
+
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    fstr = format_string.format(bulls, cows)
+    print(cowsay(fstr, random.choice(list_cows())))
 
 def download_words(url):
     '''
